@@ -28,4 +28,4 @@ jobs:
         env:
           PACKAGES_URL: ${{ secrets.PACKAGES_URL }}
           USERNAME: ${{ secrets.USERNAME }}
-          GTOKEN: ${{ secrets.TOKEN }}
+          TOKEN: ${{ secrets.TOKEN }}
