@@ -3,14 +3,23 @@ plugins {
 	id 'maven-publish'
 }
 
-group = 'com.gh'
-version = '1.0.0'
+def gitVersion = '0.0.0'
+
+def stdout = new ByteArrayOutputStream()
+exec {
+	commandLine 'git', 'describe', '--tags', '--abbrev=0'
+	standardOutput = stdout
+}
+gitVersion = stdout.toString().trim()
 
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
+
+group = 'com.gh'
+version = gitVersion
 
 repositories {
 	mavenCentral()
@@ -26,10 +35,10 @@ publishing {
 	repositories {
 		maven {
 			name = "GitHubPackages"
-			url = uri("https://maven.pkg.github.com/geongeongeon/common-test")
+			url = uri(System.getenv("PACKAGES_URL"))
 			credentials {
-				username = System.getenv("GITHUB_USERNAME")
-				password = System.getenv("GITHUB_TOKEN")
+				username = System.getenv("USERNAME")
+				password = System.getenv("TOKEN")
 			}
 		}
 	}
